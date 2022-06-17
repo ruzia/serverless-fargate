@@ -7,8 +7,8 @@ module.exports = {
     cpu: { type: 'integer', enum: [256, 512, 1024, 2048, 4096] },
     architecture: { type: 'string' },
     environment: { type: 'object' },
-    executionRoleArn: { type: 'string' },
-    taskRoleArn: { type: 'string' },
+    executionRoleArn: { type: 'object' },
+    taskRoleArn: { type: 'object' },
     logGroupName: { type: 'string' },
     iamRoleStatements: { type: 'array' },
     iamManagedPolicies: { type: 'array', items: { type: 'string' } },
@@ -34,8 +34,8 @@ module.exports = {
           properties: {
             name: { type: 'string' },
             image: { type: 'string' },
-            executionRoleArn: { type: 'string' },
-            taskRoleArn: { type: 'string' },
+            executionRoleArn: { type: 'object' },
+            taskRoleArn: { type: 'object' },
             vpc: {
               type: 'object',
               properties: {
