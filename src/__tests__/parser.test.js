@@ -1,5 +1,21 @@
 const parse = require('../parser');
 
+test('minimal task configuration', () => {
+  const parsed = parse({
+    vpc: {
+      securityGroupIds: ['sg-1234'],
+      subnetIds: ['subnet-1234'],
+    },
+    tasks: {
+      'my-task': {
+        image: 'my-image',
+      },
+    },
+  });
+
+  expect(parsed).toMatchSnapshot();
+});
+
 test('minimal service task configuration', () => {
   const parsed = parse({
     vpc: {
@@ -9,6 +25,9 @@ test('minimal service task configuration', () => {
     tasks: {
       'my-task': {
         image: 'my-image',
+        service: {
+          desiredCount: 1
+        },
       },
     },
   });

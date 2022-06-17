@@ -38,27 +38,31 @@ const parseTask = (global, name, task) => {
       ...definition,
       schedule: task.schedule,
     };
+  } else if (task.service) {
+    const isStrictMode = get(task, 'service.strict', false);
+
+    return {
+      ...definition,
+      service: {
+        desiredCount: get(task, 'service.desiredCount', 1),
+        maximumPercent: get(
+          task,
+          'service.maximumPercent',
+          isStrictMode ? 100 : 200
+        ),
+        minimumHealthyPercent: get(
+          task,
+          'service.minimumHealthyPercent',
+          isStrictMode ? 0 : 100
+        ),
+        spot: get(task, 'service.spot', false),
+      },
+    };
+  } else {
+    return {
+      ...definition,
+    };
   }
-
-  const isStrictMode = get(task, 'service.strict', false);
-
-  return {
-    ...definition,
-    service: {
-      desiredCount: get(task, 'service.desiredCount', 1),
-      maximumPercent: get(
-        task,
-        'service.maximumPercent',
-        isStrictMode ? 100 : 200
-      ),
-      minimumHealthyPercent: get(
-        task,
-        'service.minimumHealthyPercent',
-        isStrictMode ? 0 : 100
-      ),
-      spot: get(task, 'service.spot', false),
-    },
-  };
 };
 
 module.exports = config => {
