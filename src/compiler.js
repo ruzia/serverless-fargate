@@ -220,17 +220,30 @@ const compileTask = (images, task) => {
     };
   }
 
+  if (task.service) {
+    return {
+      Resources: {
+        [identifier + 'Task']: compileTaskDefinition(images, task),
+        [identifier + 'Service']: compileService(identifier, task),
+      },
+      Outputs: {
+        [identifier + 'TaskArn']: {
+          Value: { Ref: identifier + 'Task' },
+        },
+        [identifier + 'ServiceArn']: {
+          Value: { Ref: identifier + 'Service' },
+        },
+      },
+    };
+  }
+
   return {
     Resources: {
       [identifier + 'Task']: compileTaskDefinition(images, task),
-      [identifier + 'Service']: compileService(identifier, task),
     },
     Outputs: {
       [identifier + 'TaskArn']: {
         Value: { Ref: identifier + 'Task' },
-      },
-      [identifier + 'ServiceArn']: {
-        Value: { Ref: identifier + 'Service' },
       },
     },
   };
